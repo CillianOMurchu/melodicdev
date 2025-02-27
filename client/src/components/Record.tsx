@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
+interface Form {
+  name?: string;
+  level?: string;
+  position?: string;
+}
+
 export default function Record() {
   const [form, setForm] = useState({
     name: "",
@@ -17,7 +23,7 @@ export default function Record() {
       if (!id) return;
       setIsNew(false);
       const response = await fetch(
-        `http://localhost:5050/record/${params.id.toString()}`
+        `http://localhost:5050/record/${params.id?.toString()}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -37,14 +43,14 @@ export default function Record() {
   }, [params.id, navigate]);
 
   // These methods will update the state properties.
-  function updateForm(value) {
+  function updateForm(value: Form) {
     return setForm((prev) => {
       return { ...prev, ...value };
     });
   }
 
   // This function will handle the submission.
-  async function onSubmit(e) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const person = { ...form };
     try {

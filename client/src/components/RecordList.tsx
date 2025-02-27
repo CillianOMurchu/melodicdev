@@ -1,7 +1,19 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Record = (props) => (
+export interface Record {
+  name: string;
+  position: string;
+  level: string;
+  _id: string;
+}
+
+interface RecordListProps {
+  record: Record;
+  deleteRecord: (id: string) => void;
+}
+
+const Record = (props: RecordListProps) => (
   <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
     <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
       {props.record.name}
@@ -36,7 +48,7 @@ const Record = (props) => (
 );
 
 export default function RecordList() {
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState<Record[]>([]);
 
   // This method fetches the records from the database.
   useEffect(() => {
@@ -55,7 +67,7 @@ export default function RecordList() {
   }, [records.length]);
 
   // This method will delete a record
-  async function deleteRecord(id) {
+  async function deleteRecord(id: string) {
     await fetch(`http://localhost:5050/record/${id}`, {
       method: "DELETE",
     });
