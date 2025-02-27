@@ -8,7 +8,6 @@ interface Form {
 }
 
 export default function Record() {
-  // check if production or development
   const isProd = process.env.NODE_ENV === "production";
 
   const baseUrl = isProd
