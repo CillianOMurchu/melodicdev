@@ -1,10 +1,52 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import App from "./App";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+import RecordList from "./components/RecordList";
+import "./index.css";
+import Record from "./components/Record";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <RecordList />,
+      },
+    ],
+  },
+  {
+    path: "/edit/:id",
+    element: <App />,
+    children: [
+      {
+        path: "/edit/:id",
+        element: <Record />,
+      },
+    ],
+  },
+  {
+    path: "/create",
+    element: <App />,
+    children: [
+      {
+        path: "/create",
+        element: <Record />,
+      },
+    ],
+  },
+]);
+
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  );
+} else {
+  console.error("Failed to find the root element");
+}
