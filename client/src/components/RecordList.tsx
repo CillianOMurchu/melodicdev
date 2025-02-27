@@ -10,6 +10,7 @@ export interface Record {
 
 interface RecordListProps {
   record: Record;
+  key: string;
   deleteRecord: (id: string) => void;
 }
 
